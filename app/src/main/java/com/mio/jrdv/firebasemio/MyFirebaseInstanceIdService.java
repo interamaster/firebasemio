@@ -93,7 +93,8 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
         //con userid el nombre del padre:
 
          mDatabase.child("PADRES").child(newPadre.getNombre()).setValue(newPadre);
-
+        //no desed la raiz
+       // mDatabase.child(newPadre.getEmail()).setValue(newPadre);
 
     }
 

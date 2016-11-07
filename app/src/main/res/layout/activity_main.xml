@@ -20,10 +20,19 @@
 
 
     <Button
+        android:id="@+id/newpadre"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:onClick="Añadirpadre"
         android:text="añadir PADRE nuevo"
         android:layout_below="@+id/newhijo"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:onClick="VerMisHijos"
+        android:text="VER MIS HIJOS"
+        android:layout_below="@+id/newpadre"
         />
 </RelativeLayout>

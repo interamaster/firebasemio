@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -108,6 +110,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        chequeargoogleplay();
+
+
 
 /*
 
@@ -167,7 +172,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void chequeargoogleplay() {
 
+        int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+        switch(result) {
+            case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
+                Log.d(TAG,"SERVICE_VERSION_UPDATE_REQUIRED");
+                break;
+            case ConnectionResult.SUCCESS:
+                Log.d(TAG, "Play service available success");
+                break;
+            default:
+                Log.d(TAG, "unknown services result: " + result);
+
+        }
+    }
 
 
     public void crearPAdreFicticio() {
@@ -214,6 +234,9 @@ public class MainActivity extends AppCompatActivity {
        //
         //
          mDatabase.child("PADRES").child(newPadre.getNombre()).setValue(newPadre);
+        //en vez de asi directamente de la riaz:
+
+       // mDatabase.child(newPadre.getEmail()).setValue(newPadre);
 
        // addNewPADRE(newPadre);
 
@@ -228,16 +251,16 @@ public class MainActivity extends AppCompatActivity {
 
         //con Java
 
-        HIJOS newHijo= new HIJOS("ejemoploemail@gmail.com","password","Jose Ramon Delgado","GUSTAVO",FireBaseUID);
+        HIJOS newHijo= new HIJOS("gusemaila@gmail.com","password ","Jose Ramon Delgado","GUSTAVO",FireBaseUID);
 
         //2º)recupermaos nombre del padre desde PREF
         //TODO tendria q recyuperarlo desde firebase
 
         SharedPreferences pref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
-        String NombredelPadre=pref.getString(PREF_NOMBRE_PADRE,"NONAME");//por defecto aun no
+        final String NombredelPadre=pref.getString(PREF_NOMBRE_PADRE,"NONAME");//por defecto aun no
 
-        Log.d("INFO", "El nombre del PADRES es:: " +  NombredelPadre);
+        Log.d("INFO", "El nombre del PADRES recueprado desde Pref:: " +  NombredelPadre);
 
 
         //3º)los recupermoas desde FireBase:
@@ -255,7 +278,12 @@ public class MainActivity extends AppCompatActivity {
                 // padrefirebaseUID=duk56qcAWJs:APA91bE45MYlqfyxwQer8x8qheGFQuq3kD. . }}} }
                 //
                 // Get item object and use the values to update the UI
-                PADRES miPadrees = dataSnapshot.child("PADRES").child("Jose Ramon Delgado").getValue(PADRES.class);
+              //  PADRES miPadrees = dataSnapshot.child("PADRES").child("Jose Ramon Delgado").getValue(PADRES.class);
+
+                //en luigar de escribir a mano el nombre del padre com  child le metemos el que heos recuperado dede pref!!
+                //YA SI CADA PADRE SOLO VERA A SUS HIJOS!!!!!
+
+                PADRES miPadrees = dataSnapshot.child("PADRES").child(NombredelPadre).getValue(PADRES.class);
 
 
                 Log.d("INFO", "El nombre del PADRES es:: " +  miPadrees.getNombre());
@@ -264,12 +292,23 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("INFO", "El UID del PADRES es:: " +  miPadrees.getPadrefirebaseuid());
 
 
-                Log.d(TAG, dataSnapshot.getKey() + ":" + dataSnapshot.getValue().toString());
-
-                Log.d("INFO 1", dataSnapshot.child("PADRES").child("PADRES").getKey() + ":" + dataSnapshot.getValue().toString());
 
 
-                Log.d("INFO 2",dataSnapshot.child("PADRES").toString());
+                //PARA LE HIJO SI QUE TENGO QUE RECUPERARLO DESDE FIREBASE SI NO EXISTE EN PREFS
+
+
+
+
+
+
+
+
+               // Log.d(TAG, dataSnapshot.getKey() + ":" + dataSnapshot.getValue().toString());
+
+               // Log.d("INFO 1", dataSnapshot.child("PADRES").child("PADRES").getKey() + ":" + dataSnapshot.getValue().toString());
+
+
+               //Log.d("INFO 2",dataSnapshot.child("PADRES").toString());
                 /*
                  DataSnapshot { key = PADRES, value = {Jose Ramon Delgado=
                  {nombre=Jose Ramon Delgado, email=ejemoploemail@gmail.com, password=password, padrefirebaseuid=d8jCMt8vX4o:APA91bEu0
@@ -278,12 +317,12 @@ public class MainActivity extends AppCompatActivity {
 
 
                  */
-                Log.d("INFO 3",dataSnapshot.child("PADRES").child("Jose Ramon Delgado").toString());//!!OK
+              //  Log.d("INFO 3",dataSnapshot.child("PADRES").child("Jose Ramon Delgado").toString());//!!OK
                 /*
                  DataSnapshot { key = Jose Ramon Delgado, value = {nombre=Jose Ramon Delgado, email=ejemoploemail@gmail.com, password=password,
                   padrefirebaseuid=d8jCMt8vX4o:APA91bEu0bm1L3y4WkKGI8xG6NGsyYmaXac9Q h_5If0PI1b1TvUfgkq53joNUu_gausu8UH-Hw} }
                  */
-
+                            /*
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
                     Log.d("INFO 4",child.getValue().toString());
@@ -305,9 +344,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.e("Count " ,""+dataSnapshot.getChildrenCount());//1 solo PADRES!!!
 
+                            */
 
-
-                Log.d("INFO 7", "en el array hay " +   dataSnapshot.
+               // Log.d("INFO 7", "en el array hay " +   dataSnapshot.
 
 
 
@@ -356,7 +395,16 @@ public class MainActivity extends AppCompatActivity {
         //5º)creamos el HIJO si los valores que ha metido del padre son correctos
 
 
-     //   mDatabase.child("PADRES").child(NombredelPadre).child("HIJOS").child(newHijo.getNombreHijo()).setValue(newHijo);
+      // mDatabase.child("PADRES").child(NombredelPadre).child("HIJOS").child(newHijo.getNombreHijo()).setValue(newHijo);
+
+        //COMO NO TENGO NOI DE COMO SABER LE NOMBRE DEL HIJO!!LE PONGO EL MISMO NOMBRE DEL PADRE EN LA RAIZ
+        mDatabase.child("PADRES").child(NombredelPadre).child("HIJOS").child(newHijo.getNombreHijo()).setValue(newHijo);
+
+        //6º)chcequeamosn que lo crea ok:
+
+
+
+
 
     }
 
@@ -376,8 +424,11 @@ public class MainActivity extends AppCompatActivity {
         //3º)creamos en la Database de FireBase el padre
         //con userid el nombre del padre:
 
+       mDatabase.child("PADRES").child(newPadre.getNombre()).setValue(newPadre);
        // mDatabase.child("PADRES").child(newPadre.getNombre()).setValue(newPadre);
-        mDatabase.child("PADRES").child(newPadre.getNombre()).setValue(newPadre);
+
+        //en vez d eso direcamente desde la raiz:
+        //mDatabase.child(newPadre.getEmail()).setValue(newPadre);
 
 
         //addNewPADRE(newPadre);
@@ -407,4 +458,63 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void VerMisHijos(View view) {
+
+
+
+        //1º)recupermaos nombre del padre desde PREF
+
+
+        SharedPreferences pref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        final String NombredelPadre=pref.getString(PREF_NOMBRE_PADRE,"NONAME");//por defecto aun no
+
+        Log.d("INFO", "El nombre del PADRES recueprado desde Pref:: " +  NombredelPadre);
+
+
+
+        //2º)recuepramos el nombre de los hijs desde FireBase(cuando sea el padre sera lo mismo)
+
+
+
+        mDatabase.child("PADRES").child(NombredelPadre).child("HIJOS").orderByChild("mipadrees").equalTo(NombredelPadre).addListenerForSingleValueEvent(
+
+
+       // mDatabase.child("PADRES").child(NombredelPadre).child("HIJOS").child(NombredelPadre).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //dataSnapshot.getRef().setValue(null);
+                      //  HIJOS hijonew = dataSnapshot.child("PADRES").child(NombredelPadre).child("HIJOS").child(NombredelPadre).getValue(HIJOS.class);
+
+
+
+                        //para ver todos los HIJOS:
+
+                        for (DataSnapshot child: dataSnapshot.getChildren()) {
+                            Log.i("HIJOS: ", child.getKey());
+
+                            HIJOS hijonew = child.getValue(HIJOS.class);
+
+                            Log.d("INFO", "El nombre del padre del HIJO es:: " +  hijonew.getMipadrees());
+                            Log.d("INFO", "El nombre del HIJO es:: " +  hijonew.getNombreHijo());
+                            Log.d("INFO", "El email del HIJO es:: " +  hijonew.getElemaildemipadrees());
+                            Log.d("INFO", "El password del HIJO es:: " +  hijonew.getElpassworddemipadrees());
+                            Log.d("INFO", "El UID del HIJO es:: " +  hijonew.getFirebaseuid());
+                        }
+
+
+
+                    }
+
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("TodoApp", "getUser:onCancelled", databaseError.toException());
+                    }
+                });
+
+
+
+    }
 }
