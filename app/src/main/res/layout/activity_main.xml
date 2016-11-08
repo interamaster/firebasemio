@@ -50,7 +50,8 @@
         android:layout_height="100dp"
         android:id="@+id/fotoIamgeview"
         android:layout_below="@+id/hacerfoto"
-        android:background="@color/colorPrimaryDark"
+
+        android:scaleType="fitXY"
         />
 
 

@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.provider.SyncStateContract;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -197,63 +199,78 @@ public class MainActivity extends AppCompatActivity {
 */
 
 
-        final String NombredelPadre=pref.getString(PREF_NOMBRE_PADRE,"NONAME");//por defecto aun no
+                  final String NombredelPadre=pref.getString(PREF_NOMBRE_PADRE,"NONAME");//por defecto aun no
 
-        Log.d("INFO", "El nombre del PADRES recueprado desde Pref:: en oncreate " +  NombredelPadre);
+            Log.d("INFO", "El nombre del PADRES recueprado desde Pref:: en oncreate " +  NombredelPadre);
 
-        if (!NombredelPadre.equals("NONAME")) {
+            if (!NombredelPadre.equals("NONAME")) {
 
-            mDatabase.child("PADRES").child(NombredelPadre).addListenerForSingleValueEvent(
-
-
-                    // mDatabase.child("PADRES").child(NombredelPadre).child("HIJOS").child(NombredelPadre).addListenerForSingleValueEvent(
-                    new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            //dataSnapshot.getRef().setValue(null);
-                            //  HIJOS hijonew = dataSnapshot.child("PADRES").child(NombredelPadre).child("HIJOS").child(NombredelPadre).getValue(HIJOS.class);
+                mDatabase.child("PADRES").child(NombredelPadre).addListenerForSingleValueEvent(
 
 
-                            PADRES miPadrees = dataSnapshot.getValue(PADRES.class);
-
-                            Log.d("INFO","desde on create y recupernadode Firebas:");
-                            Log.d("INFO", "El nombre del PADRES es:: " +  miPadrees.getNombre());
-                            Log.d("INFO", "El email del PADRES es:: " +  miPadrees.getEmail());
-                            Log.d("INFO", "El password del PADRES es:: " +  miPadrees.getPassword());
-                            Log.d("INFO", "El UID del PADRES es:: " +  miPadrees.getPadrefirebaseuid());
-                            Log.d("INFO", "El   PADRES  TIENE O NO FOTO:: " +  miPadrees.getFotoencoded64());
+                        // mDatabase.child("PADRES").child(NombredelPadre).child("HIJOS").child(NombredelPadre).addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                //dataSnapshot.getRef().setValue(null);
+                                //  HIJOS hijonew = dataSnapshot.child("PADRES").child(NombredelPadre).child("HIJOS").child(NombredelPadre).getValue(HIJOS.class);
 
 
+                                PADRES miPadrees = dataSnapshot.getValue(PADRES.class);
 
-                            //solo recupera iagen si la tiene!!!!!
-                                    if (!miPadrees.getFotoencoded64().equals("NO FOTO")) {
-
-                                        Bitmap imageBitmap = null;
-                                        try {
-                                            imageBitmap = decodeFromFirebaseBase64(miPadrees.getFotoencoded64());
-                                            MiFoto.setImageBitmap(imageBitmap);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
+                                Log.d("INFO","desde on create y recupernadode Firebas:");
+                                Log.d("INFO", "El nombre del PADRES es:: " +  miPadrees.getNombre());
+                                Log.d("INFO", "El email del PADRES es:: " +  miPadrees.getEmail());
+                                Log.d("INFO", "El password del PADRES es:: " +  miPadrees.getPassword());
+                                Log.d("INFO", "El UID del PADRES es:: " +  miPadrees.getPadrefirebaseuid());
+                                Log.d("INFO", "El   PADRES  TIENE O NO FOTO:: " +  miPadrees.getFotoencoded64());
 
 
+
+                                //solo recupera iagen si la tiene!!!!!
+                                if (!miPadrees.getFotoencoded64().equals("NO FOTO")) {
+
+                                    Bitmap imageBitmap = null;
+                                    try {
+                                        imageBitmap = decodeFromFirebaseBase64(miPadrees.getFotoencoded64());
+
+                                        // MiFoto.setImageBitmap(imageBitmap);//no mejor redonda:
+
+
+                                        RoundedBitmapDrawable img = RoundedBitmapDrawableFactory.create(getResources(), imageBitmap);
+
+                                        //asi con un radio
+
+                                        // img.setCornerRadius(150.0f);
+
+
+                                        //asi es circular perfecta
+                                        img.setCornerRadius(Math.min(img.getMinimumWidth(), img.getMinimumHeight())/2.0f);
+
+                                        MiFoto.setImageDrawable(img);
+
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
                                     }
 
 
-
-
-                        }
-
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            Log.w("TodoApp", "getUser:onCancelled", databaseError.toException());
-                        }
-                    });
+                                }
 
 
 
-        }
+
+                            }
+
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.w("TodoApp", "getUser:onCancelled", databaseError.toException());
+                            }
+                        });
+
+
+
+            }
 
     }
 
