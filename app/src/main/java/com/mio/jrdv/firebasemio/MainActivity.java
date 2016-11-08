@@ -1,14 +1,23 @@
 package com.mio.jrdv.firebasemio;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.MediaStore;
+import android.provider.SyncStateContract;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,12 +59,23 @@ public class MainActivity extends AppCompatActivity {
     public static  String PADREFireBaseUID;
     public static  String FireBaseUID;
 
+    //para el intent de la cmara
+    private static final int REQUEST_IMAGE_CAPTURE = 111;
+    private ImageView MiFoto;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //para la foto:
+
+          MiFoto = (ImageView) findViewById(R.id.fotoIamgeview);
+
+        //si existe la rcupermaos de firebase:
+
+
 
         //En el arranque inicial de tu app, el SDK FCM genera un token de registro para la instancia de app cliente.
         Log.d("FCM", "Instance ID: " + FirebaseInstanceId.getInstance().getToken());
@@ -134,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
         //3º)los recupermoas desde FireBase:
 
-/*
+ /*
         ValueEventListener MiFireBaseListeener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -146,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
                     PADRES miPadrees = child.getValue(PADRES.class);
 
+                    Log.d("INFO","desde on create y recupernadode Firebas:");
                     Log.d("INFO", "El nombre del PADRES es:: " +  miPadrees.getNombre());
                     Log.d("INFO", "El email del PADRES es:: " +  miPadrees.getEmail());
                     Log.d("INFO", "El password del PADRES es:: " +  miPadrees.getPassword());
@@ -165,10 +188,72 @@ public class MainActivity extends AppCompatActivity {
                 // ...
             }
         };
-    // mDatabase.addListenerForSingleValueEvent(MiFireBaseListeener);
-        mDatabase.addValueEventListener(MiFireBaseListeener);*/
 
 
+            // mDatabase.addListenerForSingleValueEvent(MiFireBaseListeener);
+          //  mDatabase.addListenerForSingleValueEvent(MiFireBaseListeener);
+
+
+*/
+
+
+        final String NombredelPadre=pref.getString(PREF_NOMBRE_PADRE,"NONAME");//por defecto aun no
+
+        Log.d("INFO", "El nombre del PADRES recueprado desde Pref:: en oncreate " +  NombredelPadre);
+
+        if (!NombredelPadre.equals("NONAME")) {
+
+            mDatabase.child("PADRES").child(NombredelPadre).addListenerForSingleValueEvent(
+
+
+                    // mDatabase.child("PADRES").child(NombredelPadre).child("HIJOS").child(NombredelPadre).addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            //dataSnapshot.getRef().setValue(null);
+                            //  HIJOS hijonew = dataSnapshot.child("PADRES").child(NombredelPadre).child("HIJOS").child(NombredelPadre).getValue(HIJOS.class);
+
+
+                            PADRES miPadrees = dataSnapshot.getValue(PADRES.class);
+
+                            Log.d("INFO","desde on create y recupernadode Firebas:");
+                            Log.d("INFO", "El nombre del PADRES es:: " +  miPadrees.getNombre());
+                            Log.d("INFO", "El email del PADRES es:: " +  miPadrees.getEmail());
+                            Log.d("INFO", "El password del PADRES es:: " +  miPadrees.getPassword());
+                            Log.d("INFO", "El UID del PADRES es:: " +  miPadrees.getPadrefirebaseuid());
+                            Log.d("INFO", "El   PADRES  TIENE O NO FOTO:: " +  miPadrees.getFotoencoded64());
+
+
+
+                            //solo recupera iagen si la tiene!!!!!
+                                    if (!miPadrees.getFotoencoded64().equals("NO FOTO")) {
+
+                                        Bitmap imageBitmap = null;
+                                        try {
+                                            imageBitmap = decodeFromFirebaseBase64(miPadrees.getFotoencoded64());
+                                            MiFoto.setImageBitmap(imageBitmap);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+
+                                    }
+
+
+
+
+                        }
+
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("TodoApp", "getUser:onCancelled", databaseError.toException());
+                        }
+                    });
+
+
+
+        }
 
     }
 
@@ -213,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
 
         PADREFireBaseUID=FireBaseUID;
 
-        PADRES newPadre= new PADRES("ejemoploemail@gmail.com","Jose Ramon Delgado","password",PADREFireBaseUID);
+        PADRES newPadre= new PADRES("ejemoploemail@gmail.com","Jose Ramon Delgado","password",PADREFireBaseUID,"NO FOTO");
 
 
 
@@ -413,7 +498,7 @@ public class MainActivity extends AppCompatActivity {
 
         PADREFireBaseUID=" ficticiodadasdasdasseUID";
 
-        PADRES newPadre= new PADRES("ejemoploemail33@gmail.com","Jesus Perez","password3",PADREFireBaseUID);
+        PADRES newPadre= new PADRES("ejemoploemail33@gmail.com","Jesus Perez","password3",PADREFireBaseUID,"NO FOTO");
 
 
 
@@ -516,5 +601,70 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////FOTOS////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void hacerfoto(View view) {
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+
+    }
+
+
+    //AQUI RECIBIMOS EL INTENT EXTRA CON LA FOTO HECHA
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            MiFoto.setImageBitmap(imageBitmap);
+            encodeBitmapAndSaveToFirebase(imageBitmap);
+        }
+    }
+
+
+    //METODO PARA CODIFICAR Y SUBIR A FIREBASE  LA FOTO NUESTRA/HIJO
+
+    public void encodeBitmapAndSaveToFirebase(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+       /*
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference(SyncStateContract.Constants.FIREBASE_CHILD_RESTAURANTS)
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(mRestaurant.getPushId())
+                .child("imageUrl");
+        ref.setValue(imageEncoded);
+
+        */
+
+        //MIO:
+
+        //1º)recupermaos nombre del padre desde PREF
+
+
+        SharedPreferences pref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        final String NombredelPadre=pref.getString(PREF_NOMBRE_PADRE,"NONAME");//por defecto aun no
+
+        Log.d("INFO", "El nombre del PADRES recueprado desde Pref:: " +  NombredelPadre);
+        mDatabase.child("PADRES").child(NombredelPadre).child("fotoencoded64").setValue(imageEncoded);
+    }
+
+
+
+    //PARA DECODIFCAR LA IMAGEN(STRING )DEVUELTA POR FIREBASE Y CONVERTIRLA EN BITMAP
+
+    public static Bitmap decodeFromFirebaseBase64(String image) throws IOException {
+        byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
     }
 }

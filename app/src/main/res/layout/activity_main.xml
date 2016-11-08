@@ -29,10 +29,29 @@
         />
 
     <Button
+        android:id="@+id/verhijos"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:onClick="VerMisHijos"
         android:text="VER MIS HIJOS"
         android:layout_below="@+id/newpadre"
         />
+
+    <Button
+        android:id="@+id/hacerfoto"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:onClick="hacerfoto"
+        android:text="HACER FOTO"
+        android:layout_below="@+id/verhijos"
+        />
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/fotoIamgeview"
+        android:layout_below="@+id/hacerfoto"
+        android:background="@color/colorPrimaryDark"
+        />
+
+
 </RelativeLayout>

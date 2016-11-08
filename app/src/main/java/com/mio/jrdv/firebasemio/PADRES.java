@@ -15,6 +15,7 @@ public class PADRES {
       private String email;
       private String password;
       private String padrefirebaseuid;
+    private String fotoencoded64;
 
 
     //constructors
@@ -22,11 +23,12 @@ public class PADRES {
     public PADRES() {
     }
 
-    public PADRES(String email, String nombre, String password,String padrefirebaseuid) {
+    public PADRES(String email, String nombre, String password,String padrefirebaseuid ,String fotoencoded64) {
         this.email = email;
         this.nombre = nombre;
         this.padrefirebaseuid = padrefirebaseuid;
         this.password = password;
+        this.fotoencoded64=fotoencoded64;
     }
 
     //getters (no necesiat los setter)
@@ -50,6 +52,12 @@ public class PADRES {
     public String getPassword() {
         return password;
     }
+
+
+    public String getFotoencoded64() {
+        return fotoencoded64;
+    }
+
 
     @Exclude
     public Map<String, Object> toMap() {

@@ -74,7 +74,7 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
 
         PADREFireBaseUID=token;
-        PADRES newPadre= new PADRES("ejemoploemail@gmail.com","Jose Ramon Delgado","password",PADREFireBaseUID);
+        PADRES newPadre= new PADRES("ejemoploemail@gmail.com","Jose Ramon Delgado","password",PADREFireBaseUID,"NO FOTO");
 
 
 
