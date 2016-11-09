@@ -40,7 +40,8 @@
 
         <activity android:name=".SettingsActivity" />
         <activity android:name=".NewPadreActivity" />
-        <activity android:name=".LoadinActivity"></activity>
+        <activity android:name=".LoadinActivity" />
+        <activity android:name=".RegisterAccountPadre"></activity>
     </application>
 
 </manifest>

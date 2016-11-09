@@ -245,8 +245,11 @@ public class MainActivity extends AppCompatActivity {
                                     try {
                                         imageBitmap = decodeFromFirebaseBase64(miPadrees.getFotoencoded64());
 
-                                        // MiFoto.setImageBitmap(imageBitmap);//no mejor redonda:
+                                        MiFoto.setImageBitmap(imageBitmap);//no mejor redonda:
 
+                                        /*
+                                        //TODO lo hago con una libreria:
+                                        https://github.com/siyamed/android-shape-imageview
 
                                         RoundedBitmapDrawable img = RoundedBitmapDrawableFactory.create(getResources(), imageBitmap);
 
@@ -259,6 +262,9 @@ public class MainActivity extends AppCompatActivity {
                                         img.setCornerRadius(Math.min(img.getMinimumWidth(), img.getMinimumHeight())/2.0f);
 
                                         MiFoto.setImageDrawable(img);
+
+                                        */
+
 
                                     } catch (IOException e) {
                                         e.printStackTrace();

@@ -124,7 +124,9 @@ public class LoadinActivity extends AppCompatActivity {
 
                                    //TODO de moemnto a Main
                                   // Intent intent = new Intent(LoadinActivity.this, DashboardActivity.class);
-                                    Intent intent = new Intent(LoadinActivity.this, MainActivity.class);
+                                    //Intent intent = new Intent(LoadinActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(LoadinActivity.this, RegisterAccountPadre.class);
+
 
                                     startActivity(intent);
                                     finish();

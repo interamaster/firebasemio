@@ -30,11 +30,15 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:9.6.1'
     compile 'com.google.firebase:firebase-database:9.6.1'
 
-    // replace {x.y.z} with the latest version.//para la animacion
+    //para la animacion
 
 
     compile 'com.github.XunMengWinter:CircularAnim:0.3.4'
     compile 'com.crystal:crystalpreloaders:1.0.0'
+
+    //para redeondear imagen
+
+    compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
 }
 
 // Add to the bottom of the file for firebase
