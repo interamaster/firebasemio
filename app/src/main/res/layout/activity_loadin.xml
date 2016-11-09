@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_loadin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mio.jrdv.firebasemio.LoadinActivity"
+    android:background="@color/colorPrimary">
+
+
+    <com.crystal.crystalpreloaders.widgets.CrystalPreloader
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:crs_pl_style="expandable_balls"
+        app:crs_pl_size="small"
+        app:crs_pl_fg_color="#fff"
+        app:crs_pl_bg_color="#fff"
+        android:layout_marginTop="160dp"
+
+        android:layout_marginLeft="160dp"
+        android:id="@+id/crystalPreloader" />
+
+    <TextView
+        android:text="Processing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/status"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:layout_below="@id/crystalPreloader"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="160dp"
+         />
+
+    <TextView
+        android:text="Success"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/success"
+        android:textColor="#fff"
+        android:alpha="0.0"
+        android:textSize="20sp"
+        android:layout_below="@id/crystalPreloader"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="160dp"
+         />
+
+
+</RelativeLayout>

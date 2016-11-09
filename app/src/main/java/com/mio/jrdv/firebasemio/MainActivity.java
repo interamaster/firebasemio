@@ -125,11 +125,22 @@ public class MainActivity extends AppCompatActivity {
             //TODO new activity para elegir
 
             //de moento sera padre y relleno a mano los datos
-
             crearPAdreFicticio();
+
+            //TODO de moemnto a Settings
+            // Intent intent = new Intent(LoadinActivity.this, DashboardActivity.class);
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+
+            startActivity(intent);
+
+
+
 
 
         }
+
+
+
 
 
 
@@ -271,6 +282,13 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
+
+
+
+
+
+
+
 
     }
 
