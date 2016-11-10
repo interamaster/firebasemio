@@ -28,9 +28,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
 
 import static android.content.ContentValues.TAG;
 
@@ -650,16 +654,23 @@ public class MainActivity extends AppCompatActivity {
 
     public void hacerfoto(View view) {
 
+        /*
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+        */
+        //lo hacems mejor con:
+
+        EasyImage.openChooserWithGallery(this, "CHOOSE PICTURE", 0);
 
     }
 
 
     //AQUI RECIBIMOS EL INTENT EXTRA CON LA FOTO HECHA
 
+    /*
+    //MEJOR CON LA CLASS EASYIMAGE..
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
@@ -669,7 +680,42 @@ public class MainActivity extends AppCompatActivity {
             encodeBitmapAndSaveToFirebase(imageBitmap);
         }
     }
+    */
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+            @Override
+            public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+                //Some error handling
+            }
+
+            @Override
+            public void onImagesPicked(List<File> imageFiles, EasyImage.ImageSource source, int type) {
+                //onPhotosReturned(imageFiles);
+                Log.d("INFO","foto cogida ok");
+
+                //convierto el file en bitmap:
+
+
+                Bitmap bitmap = BitmapFactory.decodeFile(imageFiles.get(0).getPath());
+                MiFoto.setImageBitmap(bitmap);
+                encodeBitmapAndSaveToFirebase(bitmap);
+
+            }
+
+            @Override
+            public void onCanceled(EasyImage.ImageSource source, int type) {
+                //Cancel handling, you might wanna remove taken photo if it was canceled
+                if (source == EasyImage.ImageSource.CAMERA) {
+                    File photoFile = EasyImage.lastlyTakenButCanceledPhoto(MainActivity.this);
+                    if (photoFile != null) photoFile.delete();
+                }
+            }
+        });
+    }
 
     //METODO PARA CODIFICAR Y SUBIR A FIREBASE  LA FOTO NUESTRA/HIJO
 
@@ -708,4 +754,8 @@ public class MainActivity extends AppCompatActivity {
         byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////FOTOS////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

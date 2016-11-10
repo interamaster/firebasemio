@@ -39,6 +39,10 @@ dependencies {
     //para redeondear imagen
 
     compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
+
+    //para hacer/elegir foto
+    compile 'com.github.jkwiecien:EasyImage:1.4.0'
+
 }
 
 // Add to the bottom of the file for firebase
