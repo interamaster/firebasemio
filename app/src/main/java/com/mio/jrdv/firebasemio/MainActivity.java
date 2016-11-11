@@ -124,6 +124,15 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+        //TODO temporal para ver el new padre
+
+        Intent intent2 = new Intent(MainActivity.this, RegisterAccountPadre.class);
+
+        startActivity(intent2);
+
+
+
         if (!PadreoHijoYaElegido){
             //aun no se eligio entre padre e hijo
             //TODO new activity para elegir
