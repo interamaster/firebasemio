@@ -2,13 +2,16 @@ package com.mio.jrdv.firebasemio;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageButton;
 
 import top.wefor.circularanim.CircularAnim;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    private ImageButton eligiopadrebutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +21,28 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
 
+        eligiopadrebutton = (ImageButton) findViewById(R.id.parentbutton);
+
+        eligiopadrebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SettingsActivity.this, RegisterAccountPadre.class);
+
+                ActivityOptions options = ActivityOptions
+                        .makeSceneTransitionAnimation(SettingsActivity.this, v, v.getTransitionName());
+                startActivity(i, options.toBundle());
+            }
+        });
+
+
+
+
     }
 
     public void eligiopadrebutton(View view) {
 
         //si elegiio padre
+        //esto lo he quitado para hacer otr
 
 
 

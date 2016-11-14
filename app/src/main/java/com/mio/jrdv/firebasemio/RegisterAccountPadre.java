@@ -6,10 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -71,6 +72,30 @@ public class RegisterAccountPadre extends AppCompatActivity {
         //para la foto:
 
         MiFoto = (ImageView) findViewById(R.id.fotoIamgeviewRegister);
+
+
+
+        //pongo 1 timer para que alos 2 seg cambie el icono de PADRE/HIJOpor la camera
+
+
+
+
+        new CountDownTimer(1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+
+                MiFoto.setImageResource(R.drawable.camera_icon);
+
+
+
+            }
+        }.start();
+
+
 
 
         //para iniciar FireBae
@@ -185,7 +210,7 @@ public class RegisterAccountPadre extends AppCompatActivity {
 
                     Bitmap bitmap = BitmapFactory.decodeFile(FotoPath);
                     MiFoto.setImageBitmap(bitmap);
-                    //encodeBitmapAndSaveToFirebase(bitmap);
+                    encodeBitmapAndSaveToFirebase(bitmap);
 
                     //3º)Salimos!!
 

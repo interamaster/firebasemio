@@ -6,11 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Looper;
-import android.provider.MediaStore;
-import android.provider.SyncStateContract;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -19,7 +14,6 @@ import android.widget.ImageView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +24,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import pl.aprilapps.easyphotopicker.DefaultCallback;
@@ -127,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO temporal para ver el new padre
 
-        Intent intent2 = new Intent(MainActivity.this, RegisterAccountPadre.class);
+        Intent intent2 = new Intent(MainActivity.this, SettingsActivity.class);
 
         startActivity(intent2);
 

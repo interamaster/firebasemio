@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Transiciones para entrada, salida y elementos compartidos...-->
+
+        <!-- Habilitar superposición de los elementos compartidos entre transiciones -->
+        <item name="android:windowSharedElementsUseOverlay">true</item>
+
     </style>
 
 </resources>
