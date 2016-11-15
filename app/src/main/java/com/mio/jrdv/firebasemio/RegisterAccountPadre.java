@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -89,6 +91,13 @@ public class RegisterAccountPadre extends AppCompatActivity {
             public void onFinish() {
 
                 MiFoto.setImageResource(R.drawable.camera_icon);
+
+                //lo hacemos animado mejo!!
+
+                final Animation myAnim = AnimationUtils.loadAnimation(RegisterAccountPadre.this, R.anim.bounce); // Use bounce interpolator with amplitude 0.2 and frequency 20
+                 BounceInterpolator interpolator = new BounceInterpolator(0.2, 20);
+                myAnim.setInterpolator(interpolator);
+                MiFoto.startAnimation(myAnim);
 
 
 
