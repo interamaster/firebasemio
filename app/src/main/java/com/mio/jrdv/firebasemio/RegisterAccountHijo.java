@@ -509,10 +509,17 @@ public class RegisterAccountHijo extends AppCompatActivity {
                 //convierto el file en bitmap:
 
 
-                Bitmap bitmap = BitmapFactory.decodeFile(imageFiles.get(0).getPath());
+                //para evitar problemas de moemoria:
+                //http://stackoverflow.com/questions/11820266/android-bitmapfactory-decodestream-out-of-memory-with-a-400kb-file-with-2mb-f
+                //http://stackoverflow.com/questions/32244851/androidjava-lang-outofmemoryerror-failed-to-allocate-a-23970828-byte-allocatio
+                //Bitmap bitmap = BitmapFactory.decodeFile(imageFiles.get(0).getPath());
+
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 4;
+                Bitmap bitmap2=BitmapFactory.decodeFile(imageFiles.get(0).getPath(),options);
 
                // MiFotoHijo.setImageBitmap(bitmap); //da errores de memoria ,asi que ponog una mas pequeña...
-                MiFotoHijo.setImageBitmap(Bitmap.createScaledBitmap(bitmap,200,200,true));
+                MiFotoHijo.setImageBitmap(Bitmap.createScaledBitmap(bitmap2,200,200,true));
 
 
 
@@ -590,7 +597,11 @@ public class RegisterAccountHijo extends AppCompatActivity {
 
     public static Bitmap decodeFromFirebaseBase64(String image) throws IOException {
         byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
+
+        //return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);//lo hago menos pesado para evitar falos memoria
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 4;
+        return BitmapFactory.decodeByteArray(decodedByteArray,0, decodedByteArray.length,options);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

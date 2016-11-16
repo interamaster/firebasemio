@@ -293,7 +293,20 @@ public class RegisterAccountPadre extends AppCompatActivity {
                 //convierto el file en bitmap:
 
 
-                Bitmap bitmap = BitmapFactory.decodeFile(imageFiles.get(0).getPath());
+                //Bitmap bitmap = BitmapFactory.decodeFile(imageFiles.get(0).getPath());
+
+                //para evitar problemas de moemoria:
+                //http://stackoverflow.com/questions/11820266/android-bitmapfactory-decodestream-out-of-memory-with-a-400kb-file-with-2mb-f
+                //http://stackoverflow.com/questions/32244851/androidjava-lang-outofmemoryerror-failed-to-allocate-a-23970828-byte-allocatio
+                //Bitmap bitmap = BitmapFactory.decodeFile(imageFiles.get(0).getPath());
+
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 4;
+                Bitmap bitmap=BitmapFactory.decodeFile(imageFiles.get(0).getPath(),options);
+
+
+
+
                 //esto de poner la imagen tan grnade da erorres:Bitmap too large to be uploaded into a texture (4128x2322, max=4096x4096)
                 //MiFoto.setImageBitmap(bitmap);
 
