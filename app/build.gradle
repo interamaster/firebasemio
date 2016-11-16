@@ -43,6 +43,7 @@ dependencies {
     //para hacer/elegir foto
     compile 'com.github.jkwiecien:EasyImage:1.4.0'
 
+    compile 'com.google.android.gms:play-services-appindexing:9.6.1'
 }
 
 // Add to the bottom of the file for firebase

@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public static  final String PREF_NOMBREDEMI_PADRE_ES="nombredemipadre";
     public static  final String PREF_EMAILDEMI_PADRE_ES="emaildemipadre";
     public static  final String PREF_PASSWORDDEMI_PADRE_ES="passworddemipadre";
+    public static  final String PREF_UID_DE_MI_PADRE_ES="uidpadre";
 
     //para para poder enviar/recibir push
 

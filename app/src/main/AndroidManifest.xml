@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mio.jrdv.firebasemio">
-
     //para el camera picker
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -44,7 +43,12 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".NewPadreActivity" />
         <activity android:name=".LoadinActivity" />
-        <activity android:name=".RegisterAccountPadre"></activity>
+        <activity android:name=".RegisterAccountPadre" />
+        <activity android:name=".RegisterAccountHijo"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

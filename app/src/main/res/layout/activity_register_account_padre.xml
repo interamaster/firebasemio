@@ -65,7 +65,7 @@
 
         android:layout_weight="1"/>
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
@@ -83,28 +83,27 @@
         android:layout_alignEnd="@+id/txtname_reg"
         android:layout_weight="1"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/txtpass_reg"
-        android:hint="Enter Your Password"
-        android:singleLine="true"
-        android:textColor="#ffffff"
-        android:textColorHint="#cccccc"
-        android:drawablePadding="10dp"
-        android:drawableLeft="@drawable/email_icon"
-        android:layout_below="@+id/txtemail_reg"
-        android:layout_alignLeft="@+id/txtemail_reg"
-        android:layout_alignStart="@+id/txtemail_reg"
-        android:layout_alignRight="@+id/txtemail_reg"
-        android:layout_alignEnd="@+id/txtemail_reg"
-        android:layout_weight="1"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/txtpass_reg"
+            android:hint="Enter Your Password"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textColorHint="#cccccc"
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/email_icon"
+            android:layout_below="@+id/txtemail_reg"
+            android:layout_alignLeft="@+id/txtemail_reg"
+            android:layout_alignStart="@+id/txtemail_reg"
+            android:layout_alignRight="@+id/txtemail_reg"
+            android:layout_alignEnd="@+id/txtemail_reg"
+            android:layout_weight="1"/>
 
 
-
-    <Button
+        <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Register"

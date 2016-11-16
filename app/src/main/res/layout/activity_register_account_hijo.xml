@@ -1,0 +1,169 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.mio.jrdv.firebasemio.RegisterAccountPadre"
+    android:background="@drawable/fondo3">
+
+    <View
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:alpha="0.6"
+        android:layout_alignParentTop="true"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            >
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:layout_marginTop="20dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/fotoParentIamgeviewRegister"
+                android:layout_gravity="left"
+                app:siBorderWidth="6dp"
+                android:layout_marginLeft="20dp"
+                app:siBorderColor="@android:color/darker_gray"
+                android:scaleType="fitXY"
+                android:background="@drawable/parents_ico"
+                android:layout_alignParentLeft="true"
+                android:onClick="TomarFoto"
+
+                android:transitionName="Padretransition"
+                />
+
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/fotochildrenIamgeviewRegister"
+                android:layout_gravity="center"
+                app:siBorderWidth="6dp"
+
+                app:siBorderColor="@android:color/darker_gray"
+                android:scaleType="fitXY"
+                android:background="@drawable/kids_icon"
+                android:onClick="TomarFoto"
+                android:layout_marginTop="20dp"
+                android:transitionName="Hijotransition"
+
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Check Parent Account"
+            android:textColor="#ffffff"
+            android:textSize="30sp"
+            android:id="@+id/txt_success_name"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_weight="0.5"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textColorHint="#cccccc"
+            android:id="@+id/txtname_check_children"
+            android:hint="Enter Parent Full Name"
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/name_icon"
+            android:layout_below="@+id/txtname_reg"
+            android:layout_alignLeft="@+id/txtname_reg"
+            android:layout_alignStart="@+id/txtname_reg"
+            android:layout_alignRight="@+id/txtname_reg"
+            android:layout_alignEnd="@+id/txtname_reg"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/txtpass_check_children"
+            android:hint="Enter Parent Password"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textColorHint="#cccccc"
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/email_icon"
+            android:layout_below="@+id/txtemail_reg"
+            android:layout_alignLeft="@+id/txtemail_reg"
+            android:layout_alignStart="@+id/txtemail_reg"
+            android:layout_alignRight="@+id/txtemail_reg"
+            android:layout_alignEnd="@+id/txtemail_reg"
+            android:layout_weight="1"/>
+
+
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Check"
+            android:id="@+id/btn_check_parent"
+            android:textColor="#ffffff"
+            android:background="@android:color/holo_blue_bright"
+            android:layout_below="@+id/txtpass_reg"
+            android:layout_alignLeft="@+id/txtpass_reg"
+            android:layout_alignStart="@+id/txtpass_reg"
+            android:layout_gravity="center"
+            android:layout_alignRight="@+id/txtpass_reg"
+            android:layout_alignEnd="@+id/txtpass_reg"
+            android:layout_weight="1"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtnamechildren_reg"
+            android:hint="Enter children Name"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:drawablePadding="10dp"
+            android:textColorHint="#cccccc"
+            android:drawableLeft="@drawable/email_icon"
+
+            android:layout_weight="1"/>
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:id="@+id/btn_reg_children"
+            android:textColor="#ffffff"
+            android:background="@android:color/holo_blue_bright"
+            android:layout_below="@+id/txtpass_reg"
+            android:layout_alignLeft="@+id/txtpass_reg"
+            android:layout_alignStart="@+id/txtpass_reg"
+            android:layout_marginTop="30dp"
+            android:layout_alignRight="@+id/txtpass_reg"
+            android:layout_alignEnd="@+id/txtpass_reg"
+            android:layout_weight="2"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

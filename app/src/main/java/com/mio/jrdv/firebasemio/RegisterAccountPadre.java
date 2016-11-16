@@ -138,7 +138,7 @@ public class RegisterAccountPadre extends AppCompatActivity {
                     valid = false;
 
                 } else {
-                    _txtemail.setError(null);
+                    _txtfullname.setError(null);
                 }
 
 

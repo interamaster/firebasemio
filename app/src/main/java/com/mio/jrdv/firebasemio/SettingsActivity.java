@@ -12,6 +12,7 @@ import top.wefor.circularanim.CircularAnim;
 public class SettingsActivity extends AppCompatActivity {
 
     private ImageButton eligiopadrebutton;
+    private ImageButton eligiophijobutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,18 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
 
+        eligiophijobutton = (ImageButton) findViewById(R.id.kidsbutton);
+
+        eligiophijobutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SettingsActivity.this, RegisterAccountHijo.class);
+
+                ActivityOptions options = ActivityOptions
+                        .makeSceneTransitionAnimation(SettingsActivity.this, v, v.getTransitionName());
+                startActivity(i, options.toBundle());
+            }
+        });
 
 
     }
