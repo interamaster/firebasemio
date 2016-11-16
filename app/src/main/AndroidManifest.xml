@@ -43,8 +43,17 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".NewPadreActivity" />
         <activity android:name=".LoadinActivity" />
-        <activity android:name=".RegisterAccountPadre" />
-        <activity android:name=".RegisterAccountHijo"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+        <activity android:name=".RegisterAccountPadre"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".RegisterAccountHijo"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data
             android:name="com.google.android.gms.version"
