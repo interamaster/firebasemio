@@ -218,8 +218,11 @@ public class RegisterAccountPadre extends AppCompatActivity {
 
 
                     Bitmap bitmap = BitmapFactory.decodeFile(FotoPath);
-                    MiFoto.setImageBitmap(bitmap);
-                    encodeBitmapAndSaveToFirebase(bitmap);
+                    //MiFoto.setImageBitmap(bitmap);//no mas perqueña
+
+                    MiFoto.setImageBitmap(Bitmap.createScaledBitmap(bitmap,200,200,true));
+
+                    encodeBitmapAndSaveToFirebase2(bitmap);
 
                     //3º)Salimos!!
 
@@ -291,8 +294,18 @@ public class RegisterAccountPadre extends AppCompatActivity {
 
 
                 Bitmap bitmap = BitmapFactory.decodeFile(imageFiles.get(0).getPath());
-                MiFoto.setImageBitmap(bitmap);
-                //encodeBitmapAndSaveToFirebase(bitmap);
+                //esto de poner la imagen tan grnade da erorres:Bitmap too large to be uploaded into a texture (4128x2322, max=4096x4096)
+                //MiFoto.setImageBitmap(bitmap);
+
+                //a partir de esto:
+                /*
+                Bitmap b= BitmapFactory.decodeFile(PATH_ORIGINAL_IMAGE);
+                Bitmap out = Bitmap.createScaledBitmap(b, 320, 480, false);
+
+                 */
+                //asi que ponog una mas pequeña...
+                MiFoto.setImageBitmap(Bitmap.createScaledBitmap(bitmap,200,200,true));
+
 
                 //guardamos el path en nuestra property
 
@@ -319,7 +332,7 @@ public class RegisterAccountPadre extends AppCompatActivity {
 
     public void encodeBitmapAndSaveToFirebase(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 10, baos);
         String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
 
         //MIO:
@@ -334,6 +347,44 @@ public class RegisterAccountPadre extends AppCompatActivity {
         Log.d("INFO", "El nombre del PADRES recueprado desde Pref:: " +  NombredelPadre);
         mDatabase.child("PADRES").child(NombredelPadre).child("fotoencoded64").setValue(imageEncoded);
     }
+
+
+
+    //TODO  este no da crash!!!!otro metodo a ver si no da crash
+
+
+    public   void encodeBitmapAndSaveToFirebase2(Bitmap image) {
+
+        Log.d("INFO", "iniciando endode a bitmap y subinedo a firebase"    );
+
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG,30, baos);
+        byte [] b=baos.toByteArray();
+        String imageEncoded=null;
+        try{
+            System.gc();
+            imageEncoded=Base64.encodeToString(b, Base64.DEFAULT);
+        }catch(Exception e){
+            e.printStackTrace();
+        }catch(OutOfMemoryError e){
+            baos=new  ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.JPEG,10, baos);
+            b=baos.toByteArray();
+            imageEncoded=Base64.encodeToString(b, Base64.DEFAULT);
+            Log.e("EWN", "Out of memory error catched");
+        }
+
+
+        SharedPreferences pref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        final String NombredelPadre=pref.getString(PREF_NOMBRE_PADRE,"NONAME");//por defecto aun no
+
+        Log.d("INFO", "El nombre del PADRE al uqe vamos a subir la imagen ENCODED64 recueprado desde encodeBitmapAndSaveToFirebase2:: " +  NombredelPadre);
+        mDatabase.child("PADRES").child(NombredelPadre).child("fotoencoded64").setValue(imageEncoded);
+    }
+
+
+
 
 
 

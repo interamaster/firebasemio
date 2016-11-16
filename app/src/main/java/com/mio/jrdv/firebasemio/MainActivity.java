@@ -384,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
 
         //con Java
 
-        HIJOS newHijo= new HIJOS("gusemaila@gmail.com","password ","Jose Ramon Delgado","GUSTAVO",FireBaseUID);
+        HIJOS newHijo= new HIJOS("gusemaila@gmail.com","password ","Jose Ramon Delgado","GUSTAVO",FireBaseUID,"NO FOTO");
 
         //2º)recupermaos nombre del padre desde PREF
         //TODO tendria q recyuperarlo desde firebase

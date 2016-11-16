@@ -11,9 +11,11 @@ import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.TransitionManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -49,7 +51,7 @@ import static com.mio.jrdv.firebasemio.MainActivity.PREF_UID_DE_MI_PADRE_ES;
 public class RegisterAccountHijo extends AppCompatActivity {
 
 
-    private String fullname;
+    private String Childrenname;
     private String nameParent;
     private String pass;
     private String FotoPath;
@@ -66,6 +68,15 @@ public class RegisterAccountHijo extends AppCompatActivity {
     //para guardar lka info del padre
 
     private PADRES MiPadreChequeadoES;
+
+    //Referencing EditText widgets and Button placed inside in xml layout file
+      EditText ChildrenName ;
+      EditText CheckFullNameParent ;
+      EditText CheckPassParent ;
+
+
+    Button BotonCheckChildren;
+    Button BotonCheckParent;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -81,13 +92,15 @@ public class RegisterAccountHijo extends AppCompatActivity {
         ab.hide();
 
 
-        //Referencing EditText widgets and Button placed inside in xml layout file
-        final EditText ChildrenName = (EditText) findViewById(R.id.txtnamechildren_reg);
-        final EditText CheckFullNameParent = (EditText) findViewById(R.id.txtname_check_children);
-        final EditText CheckPassParent = (EditText) findViewById(R.id.txtpass_check_children);
 
-        Button BotonCheckParent = (Button) findViewById(R.id.btn_check_parent);
-        Button BotonCheckChildren = (Button) findViewById(R.id.btn_reg_children);
+        //Referencing EditText widgets and Button placed inside in xml layout file
+         ChildrenName = (EditText) findViewById(R.id.txtnamechildren_reg);
+            CheckFullNameParent = (EditText) findViewById(R.id.txtname_check_children);
+            CheckPassParent = (EditText) findViewById(R.id.txtpass_check_children);
+
+
+        BotonCheckParent = (Button) findViewById(R.id.btn_check_parent);
+        BotonCheckChildren = (Button) findViewById(R.id.btn_reg_children);
 
         //para la foto:
 
@@ -279,10 +292,10 @@ public class RegisterAccountHijo extends AppCompatActivity {
                 //TODO
                 boolean valid = true;
 
-                fullname = ChildrenName.getText().toString();
+                Childrenname = ChildrenName.getText().toString();
 
 
-                if (fullname.isEmpty() || fullname.length() < 5 || fullname.length() > 30) {
+                if (Childrenname.isEmpty() || Childrenname.length() < 5 || Childrenname.length() > 30) {
                     ChildrenName.setError("Enter your real name please!!");
                     valid = false;
 
@@ -296,24 +309,42 @@ public class RegisterAccountHijo extends AppCompatActivity {
                 }
 
 
-                //3º)creamos en la Database de FireBase el HIJO
-                //con userid el nombre del padre:
-
-                //
-                //
-                //TODO  mDatabase.child("PADRES").child(newPadre.getNombre()).setValue(newPadre);
+                    if (valid) {
 
 
-                //2º)guardamos la foto encode64
+                        //3º)creamos en la Database de FireBase el HIJO
+                        //con userid el nombre del padre:
 
 
-                Bitmap bitmap = BitmapFactory.decodeFile(FotoPath);
-                MiFotoPadre.setImageBitmap(bitmap);
-                encodeBitmapAndSaveToFirebase(bitmap);
+                        HIJOS newHijo = new HIJOS(MiPadreChequeadoES.getEmail(), MiPadreChequeadoES.getPassword(), MiPadreChequeadoES.getNombre(), Childrenname, FireBaseUID, "NO FOTO");
 
-                //3º)Salimos!!
+                        //
+                        //
+                        //TODO  mDatabase.child("PADRES").child(newPadre.getNombre()).setValue(newPadre);
 
-                //finish();
+                        mDatabase.child("PADRES").child(MiPadreChequeadoES.getNombre()).child("HIJOS").child(newHijo.getNombreHijo()).setValue(newHijo);
+
+                        //2º)guardamos la foto encode64
+
+
+                        Bitmap bitmap = BitmapFactory.decodeFile(FotoPath);
+                       // MiFotoHijo.setImageBitmap(bitmap);//no mas perqueña
+                        MiFotoHijo.setImageBitmap(Bitmap.createScaledBitmap(bitmap,200,200,true));
+
+                        encodeBitmapAndSaveToFirebase2(bitmap);
+
+
+
+                        //3º)Salimos!!
+
+                        //finish();
+                    }
+
+                    else {
+                        //TODO informar falta algo
+                        Log.d("INFO", "falta aun algo del hijo  foto/nombre");
+
+                    }
             }
             }
 
@@ -363,7 +394,7 @@ public class RegisterAccountHijo extends AppCompatActivity {
         // Commit the changes
         edit.commit();
 
-        Log.d(TAG, "PADRES  CREADO "+MiPadreChequeadoES.getNombre());
+        Log.d(TAG, "DATOS PADRES  CREADO  DESDE HIJO"+MiPadreChequeadoES.getNombre());
 
 
 
@@ -375,13 +406,6 @@ public class RegisterAccountHijo extends AppCompatActivity {
         //pongo 1 timer para que alos 2 seg cambie el icono de PADRE/HIJOpor la camera
 
 
-        new CountDownTimer(1000, 1000) {//delay 1 seg y tarda 1 seg
-
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            public void onFinish() {
 
                 //MiFotoHijo.setImageResource(R.drawable.camera_icon);
 
@@ -392,7 +416,8 @@ public class RegisterAccountHijo extends AppCompatActivity {
                     try {
                         imageBitmap = decodeFromFirebaseBase64(MiPadreChequeadoES.getFotoencoded64());
 
-                        MiFotoPadre.setImageBitmap(imageBitmap);
+                        //MiFotoPadre.setImageBitmap(imageBitmap); //da errores de memoria ,asi que ponog una mas pequeña...
+                        MiFotoPadre.setImageBitmap(Bitmap.createScaledBitmap(imageBitmap,200,200,true));
 
 
                     } catch (IOException e) {
@@ -400,7 +425,7 @@ public class RegisterAccountHijo extends AppCompatActivity {
                     }
 
 
-                }
+
 
                 //lo hacemos animado mejo!!
 
@@ -411,12 +436,18 @@ public class RegisterAccountHijo extends AppCompatActivity {
 
 
             }
-        }.start();
 
 
 
 
         //3º)activamos los campos de niño para registrarse
+
+        TransitionManager.beginDelayedTransition((ViewGroup) ChildrenName.getRootView());
+
+        ChildrenName.setVisibility(View.VISIBLE);
+
+        TransitionManager.beginDelayedTransition((ViewGroup) BotonCheckChildren.getRootView());
+        BotonCheckChildren.setVisibility(View.VISIBLE);
 
 
 
@@ -448,7 +479,7 @@ public class RegisterAccountHijo extends AppCompatActivity {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////FOTOS////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void TomarFoto(View view) {
+    public void TomarFotoHijo(View view) {
 
         Log.d("INFO", "tomando foto");
 
@@ -479,8 +510,11 @@ public class RegisterAccountHijo extends AppCompatActivity {
 
 
                 Bitmap bitmap = BitmapFactory.decodeFile(imageFiles.get(0).getPath());
-                MiFotoPadre.setImageBitmap(bitmap);
-                //encodeBitmapAndSaveToFirebase(bitmap);
+
+               // MiFotoHijo.setImageBitmap(bitmap); //da errores de memoria ,asi que ponog una mas pequeña...
+                MiFotoHijo.setImageBitmap(Bitmap.createScaledBitmap(bitmap,200,200,true));
+
+
 
                 //guardamos el path en nuestra property
 
@@ -511,15 +545,44 @@ public class RegisterAccountHijo extends AppCompatActivity {
 
         //MIO:
 
-        //1º)recupermaos nombre del padre desde PREF
+
+
+        Log.d("INFO", "El nombre del PADRES recueprado despues de chequear: " + MiPadreChequeadoES.getNombre());
+
+        mDatabase.child("PADRES").child(MiPadreChequeadoES.getNombre()).child("HIJOS").child("fotoencoded64").setValue(imageEncoded);
+
+    }
+
+
+    public   void encodeBitmapAndSaveToFirebase2(Bitmap image) {
+
+        Log.d("INFO", "iniciando endode a bitmap y subinedo a firebase"    );
+
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG,30, baos);
+        byte [] b=baos.toByteArray();
+        String imageEncoded=null;
+        try{
+            System.gc();
+            imageEncoded=Base64.encodeToString(b, Base64.DEFAULT);
+        }catch(Exception e){
+            e.printStackTrace();
+        }catch(OutOfMemoryError e){
+            baos=new  ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.JPEG,10, baos);
+            b=baos.toByteArray();
+            imageEncoded=Base64.encodeToString(b, Base64.DEFAULT);
+            Log.e("EWN", "Out of memory error catched");
+        }
 
 
         SharedPreferences pref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
-        final String NombredelPadre = pref.getString(PREF_NOMBRE_PADRE, "NONAME");//por defecto aun no
+        final String NombredelPadre=pref.getString(PREF_NOMBRE_PADRE,"NONAME");//por defecto aun no
 
-        Log.d("INFO", "El nombre del PADRES recueprado desde Pref:: " + NombredelPadre);
-        mDatabase.child("PADRES").child(NombredelPadre).child("fotoencoded64").setValue(imageEncoded);
+        Log.d("INFO", "El nombre del PADRE al uqe vamos a subir la imagen ENCODED64 recueprado desde encodeBitmapAndSaveToFirebase2:: " +  NombredelPadre);
+
+        mDatabase.child("PADRES").child(MiPadreChequeadoES.getNombre()).child("HIJOS").child(Childrenname).child("fotoencoded64").setValue(imageEncoded);
     }
 
 

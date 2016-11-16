@@ -40,7 +40,7 @@
                 android:scaleType="fitXY"
                 android:background="@drawable/parents_ico"
                 android:layout_alignParentLeft="true"
-                android:onClick="TomarFoto"
+
 
                 android:transitionName="Padretransition"
                 />
@@ -55,10 +55,10 @@
                 app:siBorderColor="@android:color/darker_gray"
                 android:scaleType="fitXY"
                 android:background="@drawable/kids_icon"
-                android:onClick="TomarFoto"
+
                 android:layout_marginTop="20dp"
                 android:transitionName="Hijotransition"
-
+                android:onClick="TomarFotoHijo"
                 android:layout_centerHorizontal="true" />
 
         </RelativeLayout>
@@ -145,7 +145,7 @@
             android:drawablePadding="10dp"
             android:textColorHint="#cccccc"
             android:drawableLeft="@drawable/email_icon"
-
+            android:visibility="gone"
             android:layout_weight="1"/>
 
 
@@ -162,7 +162,8 @@
             android:layout_marginTop="30dp"
             android:layout_alignRight="@+id/txtpass_reg"
             android:layout_alignEnd="@+id/txtpass_reg"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            android:visibility="gone"/>
     </LinearLayout>
 
 

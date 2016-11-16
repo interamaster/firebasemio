@@ -10,17 +10,19 @@ public class HIJOS {
       String elpassworddemipadrees;
       String nombreHijo;
       String firebaseuid;
+      String fotoencoded64;
 
     //constructor
     public HIJOS() {
     }
 
-    public HIJOS(String elemaildemipadrees, String elpassworddemipadrees, String mipadrees, String nombreHijo, String firebaseuid) {
+    public HIJOS(String elemaildemipadrees, String elpassworddemipadrees, String mipadrees, String nombreHijo, String firebaseuid,String fotoencoded64 ) {
         this.elemaildemipadrees = elemaildemipadrees;
         this.elpassworddemipadrees = elpassworddemipadrees;
         this.firebaseuid = firebaseuid;
         this.mipadrees = mipadrees;
         this.nombreHijo = nombreHijo;
+        this.fotoencoded64= fotoencoded64;
     }
 
     //getter  no neceiata setters firebase
@@ -45,4 +47,10 @@ public class HIJOS {
     public String getNombreHijo() {
         return nombreHijo;
     }
+
+    public String getFotoencoded64() {
+        return fotoencoded64;
+    }
+
+
 }
