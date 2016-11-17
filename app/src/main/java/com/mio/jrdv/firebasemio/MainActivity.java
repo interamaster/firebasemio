@@ -121,9 +121,9 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO temporal para ver el new padre
 
-        Intent intent2 = new Intent(MainActivity.this, SettingsActivity.class);
+       Intent intent2 = new Intent(MainActivity.this, SettingsActivity.class);
 
-        startActivity(intent2);
+       startActivity(intent2);
 
 
 

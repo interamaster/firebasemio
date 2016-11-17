@@ -19,6 +19,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -55,6 +56,10 @@ public class RegisterAccountPadre extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
 
+    //para el progrssbar:
+
+    ProgressBar baradeprogreso;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +81,9 @@ public class RegisterAccountPadre extends AppCompatActivity {
         MiFoto = (ImageView) findViewById(R.id.fotoIamgeviewRegister);
 
 
+        //para el progressbar
+
+        baradeprogreso=(ProgressBar)findViewById(R.id.baraprogreso1);
 
         //pongo 1 timer para que alos 2 seg cambie el icono de PADRE/HIJOpor la camera
 
